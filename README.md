@@ -24,6 +24,8 @@ O usuário MySQL padrão é `root` sem senha, mas todos os valores podem ser alt
 
 `sql/schema.sql` contém a estrutura relacional. `docs/DER.md` e `docs/CASOS_DE_USO.md` contêm diagramas Mermaid, que podem ser exportados para PNG pelo Mermaid Live ou draw.io. A camada `config` abre conexões, `security` protege senhas/dados e `ui` contém as telas Swing.
 
+Também existem as versões visuais `docs/DER.svg` e `docs/CASOS_DE_USO.svg`, que podem ser abertas diretamente no navegador ou importadas no draw.io. Para cadastrar um agendamento, informe os IDs dos procedimentos separados por vírgula; o sistema copia os valores atuais para a tabela associativa e grava o total.
+
 ## Commit e push
 
 No terminal do IntelliJ:
