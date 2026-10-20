@@ -8,13 +8,15 @@ Aplicação desktop em Java Swing para controlar clientes, profissionais, proced
 2. No MySQL, execute o arquivo `sql/schema.sql`. Ele cria o banco e as tabelas.
 3. Copie `src/main/resources/config.properties.example` para `config.properties` (ou configure as variáveis de ambiente `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `APP_KEY`, `HMAC_KEY` e `SESSION_MINUTES`). Esse arquivo local não deve ser enviado ao Git.
 4. Abra a pasta no IntelliJ como projeto Maven, espere o Maven baixar `mysql-connector-j` e execute `br.com.essenciaviva.Main`.
-5. No primeiro acesso, use `admin` e `admin123`. Troque a senha pelo cadastro de usuários quando essa tela for ampliada.
+5. No primeiro acesso, use `admin` e `admin123`. A aplicação também cria profissionais e procedimentos básicos para a demonstração. A aba Usuários permite cadastrar, atualizar e inativar operadores.
 
 ## Segurança implementada
 
 Senhas usam PBKDF2-HMAC-SHA256 com salt. Os dados pessoais do cliente usam AES-256-GCM com nonce novo em cada valor. O CPF possui HMAC-SHA256 separado para pesquisa e unicidade. A chave é lida por variável de ambiente e não fica no código. A sessão é registrada no banco, atualizada pelo servidor e expira após `SESSION_MINUTES` (15 por padrão); os últimos 60 segundos devem ser demonstrados reduzindo esse valor.
 
 No desenvolvimento local a aplicação é desktop e não usa navegador/HTTPS. Em um cenário de publicação em rede, a comunicação deve ser protegida com TLS.
+
+Após três tentativas incorretas, o usuário fica temporariamente bloqueado pelo contador de segurança da tabela `usuario`. Para uma nova demonstração, o administrador pode zerar `tentativas_falhas` diretamente no banco.
 
 ## Banco de dados
 
