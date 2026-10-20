@@ -1,0 +1,9 @@
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=clinica_estetica
+DB_USER=root
+DB_PASSWORD=
+SESSION_MINUTES=15
+# Gere valores aleatórios e use APP_KEY e HMAC_KEY como variáveis de ambiente.
+APP_KEY=troque-por-uma-chave-secreta-de-32-caracteres
+HMAC_KEY=troque-por-outra-chave-secreta

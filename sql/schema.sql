@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS clinica_estetica CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE clinica_estetica;
+
+CREATE TABLE IF NOT EXISTS profissional (id INT AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(120) NOT NULL, registro VARCHAR(40) NOT NULL UNIQUE, especialidade VARCHAR(100) NOT NULL, status ENUM('ativo','inativo') NOT NULL DEFAULT 'ativo');
+CREATE TABLE IF NOT EXISTS procedimento (id INT AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(120) NOT NULL, descricao VARCHAR(255), duracao_minutos INT NOT NULL, valor DECIMAL(10,2) NOT NULL, status ENUM('ativo','inativo') NOT NULL DEFAULT 'ativo');
+CREATE TABLE IF NOT EXISTS cliente (id INT AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(120) NOT NULL, cpf_hash CHAR(64) NOT NULL UNIQUE, cpf_cifrado TEXT NOT NULL, nascimento_cif TEXT, telefone_cif TEXT, email_cif TEXT, endereco_cif TEXT, observacoes_cif TEXT, status ENUM('ativo','inativo') NOT NULL DEFAULT 'ativo');
+CREATE TABLE IF NOT EXISTS usuario (id INT AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(120) NOT NULL, login VARCHAR(60) NOT NULL UNIQUE, senha_hash VARCHAR(255) NOT NULL, perfil ENUM('administrador','recepcionista') NOT NULL, status ENUM('ativo','inativo') NOT NULL DEFAULT 'ativo', tentativas_falhas INT NOT NULL DEFAULT 0);
+CREATE TABLE IF NOT EXISTS sessao (id INT AUTO_INCREMENT PRIMARY KEY, usuario_id INT NOT NULL, token_hash CHAR(64) NOT NULL, criado_em DATETIME NOT NULL, ultima_atividade DATETIME NOT NULL, ativa BOOLEAN NOT NULL DEFAULT TRUE, FOREIGN KEY (usuario_id) REFERENCES usuario(id));
+CREATE TABLE IF NOT EXISTS agendamento (id INT AUTO_INCREMENT PRIMARY KEY, cliente_id INT NOT NULL, profissional_id INT NOT NULL, data_atendimento DATE NOT NULL, hora_inicio TIME NOT NULL, hora_fim TIME NOT NULL, situacao ENUM('agendado','concluido','cancelado') NOT NULL DEFAULT 'agendado', valor_total DECIMAL(10,2) NOT NULL DEFAULT 0, FOREIGN KEY(cliente_id) REFERENCES cliente(id), FOREIGN KEY(profissional_id) REFERENCES profissional(id));
+CREATE TABLE IF NOT EXISTS agendamento_procedimento (agendamento_id INT NOT NULL, procedimento_id INT NOT NULL, valor_cobrado DECIMAL(10,2) NOT NULL, PRIMARY KEY(agendamento_id, procedimento_id), FOREIGN KEY(agendamento_id) REFERENCES agendamento(id) ON DELETE CASCADE, FOREIGN KEY(procedimento_id) REFERENCES procedimento(id));
+
